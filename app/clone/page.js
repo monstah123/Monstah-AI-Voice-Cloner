@@ -26,7 +26,8 @@ export default function Home() {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [geminiApiKey, setGeminiApiKey] = useState("");
   const [isEnhancing, setIsEnhancing] = useState(false);
-  const [history, setHistory] = useState([]);
+   const [history, setHistory] = useState([]);
+   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   const fileInputRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -46,6 +47,16 @@ export default function Home() {
     localStorage.setItem("gemini_api_key", geminiApiKey);
     setSaveBtnText("Saved! ✓");
     setTimeout(() => setSaveBtnText("Save"), 2000);
+  };
+
+  const handleDeleteHistoryItem = (id) => {
+    if (confirmDeleteId === id) {
+      setHistory((prev) => prev.filter((item) => item.id !== id));
+      setConfirmDeleteId(null);
+    } else {
+      setConfirmDeleteId(id);
+      setTimeout(() => setConfirmDeleteId(null), 3000);
+    }
   };
 
   const toggleApiKeySection = () => {
@@ -590,6 +601,23 @@ export default function Home() {
                     <a href={item.srtUrl} download={`subtitles-${idx}.srt`} title="Download Subtitles" style={{ color: "white", textDecoration: "none", fontSize: "18px" }}>📝</a>
                   )}
                   <a href={item.url} download={`audio-${idx}.mp3`} title="Download Audio" style={{ color: "white", textDecoration: "none", fontSize: "18px" }}>⬇️</a>
+                  
+                  <button 
+                    onClick={() => handleDeleteHistoryItem(item.id)}
+                    style={{ 
+                      background: confirmDeleteId === item.id ? "rgba(239, 68, 68, 0.4)" : "rgba(255, 255, 255, 0.05)", 
+                      border: confirmDeleteId === item.id ? "1px solid #ef4444" : "1px solid rgba(255,255,255,0.1)", 
+                      color: confirmDeleteId === item.id ? "#fff" : "var(--text-muted)", 
+                      borderRadius: "6px", 
+                      padding: "4px 8px", 
+                      cursor: "pointer", 
+                      fontSize: "12px", 
+                      transition: "all 0.2s",
+                      marginLeft: "5px"
+                    }}
+                  >
+                    {confirmDeleteId === item.id ? "Are you sure?" : "🗑️"}
+                  </button>
                 </div>
               </div>
             ))}
