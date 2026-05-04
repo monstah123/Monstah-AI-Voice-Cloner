@@ -8,29 +8,42 @@ export async function POST(request) {
       return NextResponse.json({ error: "Text and Gemini API Key are required" }, { status: 400 });
     }
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-3-flash:generateContent?key=${geminiApiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `Rewrite the following text to be a highly engaging, viral hook for a short-form video (TikTok/Reels/Shorts). Keep it punchy, conversational, and attention-grabbing. Return ONLY the rewritten text without quotes, without markdown, and without extra commentary. \n\nOriginal Text: ${text}`
-          }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-        }
-      })
-    });
+    const modelsToTry = ["gemini-3.0-flash", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-pro"];
+    let lastError = null;
 
-    const data = await response.json();
-    
-    if (!response.ok) {
-        return NextResponse.json({ error: data.error?.message || "Gemini API Error" }, { status: response.status });
+    for (const model of modelsToTry) {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${geminiApiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `Rewrite the following text to be a highly engaging, viral hook for a short-form video (TikTok/Reels/Shorts). Keep it punchy, conversational, and attention-grabbing. Return ONLY the rewritten text without quotes, without markdown, and without extra commentary. \n\nOriginal Text: ${text}`
+            }]
+          }],
+          generationConfig: {
+            temperature: 0.7,
+          }
+        })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        const enhancedText = data.candidates[0].content.parts[0].text.trim();
+        return NextResponse.json({ text: enhancedText });
+      } else {
+        lastError = data.error?.message || "Gemini API Error";
+        // If it's an API key error, don't keep trying models
+        if (response.status === 400 && lastError.includes("API key")) {
+           break;
+        }
+        console.log(`Model ${model} failed:`, lastError);
+      }
     }
 
-    const enhancedText = data.candidates[0].content.parts[0].text.trim();
-    return NextResponse.json({ text: enhancedText });
+    // If all models fail
+    return NextResponse.json({ error: lastError || "All Gemini models failed" }, { status: 500 });
 
   } catch (error) {
     console.error("Enhance error:", error);
