@@ -295,10 +295,46 @@ audio::-webkit-media-controls-panel { background: rgba(18,18,30,0.8); border-rad
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* === RESPONSIVE === */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .app-container { padding: 24px 16px 60px; }
-  .glass-card { padding: 20px; border-radius: var(--radius-lg); }
+  .header h1 { font-size: 2.2rem; }
+  .steps-grid { gap: 20px; }
+  .glass-card { padding: 20px; }
+}
+
+@media (max-width: 640px) {
+  .header { margin-bottom: 32px; }
   .header h1 { font-size: 1.8rem; }
-  .record-section { flex-direction: column; }
+  .header p { font-size: 14px; }
+  
+  .step-header { margin-bottom: 15px; }
+  .step-title { font-size: 18px; }
+  
+  .record-section { flex-direction: column; width: 100%; }
+  .record-btn { width: 100%; justify-content: center; }
+  .or-divider { margin: 5px 0; }
+  
   .api-key-row { flex-direction: column; }
+  .api-key-input { width: 100%; }
+  .api-key-save-btn { width: 100%; }
+  
+  .audio-result-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .audio-result-header > div:last-child { width: 100%; flex-direction: column; }
+  .download-btn { width: 100%; justify-content: center; }
+  
+  /* Feature Grid on Landing */
+  .landing-feature-grid { grid-template-columns: 1fr !important; }
+  
+  /* Sliders */
+  input[type="range"] { height: 30px; }
+  
+  /* Navbar */
+  .navbar { padding: 15px 20px !important; }
+  .navbar-logo { font-size: 20px !important; }
+}
+
+@media (max-width: 480px) {
+  .header h1 { font-size: 1.6rem; }
+  .generate-btn { padding: 14px 20px; font-size: 15px; }
+  .glass-card { padding: 16px; border-radius: var(--radius-md); }
 }

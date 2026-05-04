@@ -30,8 +30,8 @@ export default function LandingPage() {
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", color: "white", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
 
       {/* Navbar */}
-      <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.5)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 100 }}>
-        <div style={{ fontSize: "24px", fontWeight: "900", letterSpacing: "-1px", display: "flex", alignItems: "center", gap: "10px" }}>
+      <nav className="navbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.5)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 100 }}>
+        <div className="navbar-logo" style={{ fontSize: "24px", fontWeight: "900", letterSpacing: "-1px", display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ fontSize: "28px" }}>👾</span> Monstah AI
         </div>
         <Link href="/clone" style={{ background: "linear-gradient(45deg, #FF00FF, #8A2BE2)", padding: "10px 24px", borderRadius: "30px", color: "white", textDecoration: "none", fontWeight: "bold", fontSize: "14px", transition: "all 0.3s ease", boxShadow: "0 0 20px rgba(255,0,255,0.3)" }}>
@@ -78,7 +78,7 @@ export default function LandingPage() {
             <p style={{ color: "var(--text-muted)", fontSize: "18px", maxWidth: "600px", margin: "0 auto" }}>Everything you need to automate your faceless channels and audio content in one powerful dashboard.</p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "30px" }}>
+          <div className="landing-feature-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "30px" }}>
 
             {/* Feature 1 */}
             <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
