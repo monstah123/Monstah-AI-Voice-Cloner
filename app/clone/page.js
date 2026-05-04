@@ -82,9 +82,8 @@ export default function Home() {
     }
   };
 
-  // Fetch voices when API key is available
+  // Fetch voices when API key is available (or if server-side key exists)
   useEffect(() => {
-    if (!apiKey) return;
     fetch(`/api/voices?apiKey=${apiKey}`)
       .then(res => res.json())
       .then(data => {
@@ -165,10 +164,7 @@ export default function Home() {
       setStatus({ type: "error", message: "Please enter some text first." });
       return;
     }
-    if (!geminiApiKey) {
-      setStatus({ type: "error", message: "Please enter your Gemini API Key in the settings above." });
-      return;
-    }
+    // Note: We allow empty key here to fall back to server-side GEMINI_API_KEY
     
     setIsEnhancing(true);
     setStatus({ type: "info", message: "✨ AI is rewriting your script to be viral..." });
@@ -204,10 +200,7 @@ export default function Home() {
       return;
     }
 
-    if (!apiKey) {
-      setStatus({ type: "error", message: "Please enter your ElevenLabs API Key in the settings above." });
-      return;
-    }
+    // Note: We allow empty key here to fall back to server-side ELEVENLABS_API_KEY
 
     setIsGenerating(true);
     setResultAudio(null);

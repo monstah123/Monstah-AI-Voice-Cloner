@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const { text, geminiApiKey } = await request.json();
+    const { text, geminiApiKey: providedKey } = await request.json();
+    const geminiApiKey = providedKey || process.env.GEMINI_API_KEY;
 
     if (!text || !geminiApiKey) {
       return NextResponse.json({ error: "Text and Gemini API Key are required" }, { status: 400 });

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const apiKey = searchParams.get("apiKey");
+    const apiKey = searchParams.get("apiKey") || process.env.ELEVENLABS_API_KEY;
 
     if (!apiKey) {
       return NextResponse.json(

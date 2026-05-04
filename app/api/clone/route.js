@@ -6,7 +6,7 @@ export async function POST(request) {
     const text = formData.get("text");
     const audioFile = formData.get("audio");
     const providedVoiceId = formData.get("voiceId");
-    const apiKey = formData.get("apiKey")?.trim();
+    const apiKey = (formData.get("apiKey")?.trim()) || process.env.ELEVENLABS_API_KEY;
     const targetLang = formData.get("targetLang");
     const stability = parseFloat(formData.get("stability")) || 0.5;
     const similarity = parseFloat(formData.get("similarity")) || 0.75;
