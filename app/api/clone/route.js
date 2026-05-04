@@ -108,41 +108,62 @@ export async function POST(request) {
       
       // Generate SRT
       let srtText = "";
-      if (ttsData.alignment && ttsData.alignment.characters) {
-        let counter = 1;
-        let currentWord = "";
-        let wordStartTime = null;
-        let wordEndTime = null;
-        
-        for (let i = 0; i < ttsData.alignment.characters.length; i++) {
-          const char = ttsData.alignment.characters[i];
-          const start = ttsData.alignment.character_start_times_seconds[i];
-          const end = ttsData.alignment.character_end_times_seconds ? ttsData.alignment.character_end_times_seconds[i] : (start + 0.1);
+      // ElevenLabs can return alignment in 'alignment' or 'normalized_alignment'
+      const alignment = ttsData.alignment || ttsData.normalized_alignment;
+      
+      if (alignment) {
+        // They might use 'characters' or 'chars'
+        const chars = alignment.characters || alignment.chars;
+        const starts = alignment.character_start_times_seconds || alignment.char_start_times_seconds || alignment.character_start_times_ms?.map(ms => ms / 1000);
+        const ends = alignment.character_end_times_seconds || alignment.char_end_times_seconds || alignment.character_end_times_ms?.map(ms => ms / 1000);
 
-          if (wordStartTime === null && char.trim() !== "") {
-            wordStartTime = start;
-          }
+        if (chars && starts) {
+          let counter = 1;
+          let currentWord = "";
+          let wordStartTime = null;
+          let wordEndTime = null;
+          
+          for (let i = 0; i < chars.length; i++) {
+            const char = chars[i];
+            const start = starts[i];
+            const end = (ends && ends[i]) ? ends[i] : (start + 0.05);
 
-          if (char === " " || char === "\n" || i === ttsData.alignment.characters.length - 1) {
-            if (i === ttsData.alignment.characters.length - 1) {
+            if (wordStartTime === null && char.trim() !== "") {
+              wordStartTime = start;
+            }
+
+            // Word boundary detection (space, newline, or last character)
+            const isLast = i === chars.length - 1;
+            const isBoundary = char === " " || char === "\n" || isLast;
+
+            if (isBoundary) {
+              if (isLast && char.trim() !== "") {
+                currentWord += char;
+                wordEndTime = end;
+              }
+              
+              if (currentWord.trim().length > 0) {
+                const formatTime = (seconds) => {
+                  if (isNaN(seconds) || seconds < 0) seconds = 0;
+                  const date = new Date(0);
+                  date.setMilliseconds(seconds * 1000);
+                  // Ensure we get HH:mm:ss,ms format for SRT
+                  return date.toISOString().substring(11, 23).replace('.', ',');
+                };
+
+                const sStartTime = formatTime(wordStartTime !== null ? wordStartTime : start);
+                const sEndTime = formatTime(wordEndTime !== null ? wordEndTime : end);
+                
+                srtText += `${counter}\n${sStartTime} --> ${sEndTime}\n${currentWord.trim()}\n\n`;
+                counter++;
+              }
+              currentWord = "";
+              wordStartTime = null;
+              wordEndTime = null;
+            } else {
               currentWord += char;
               wordEndTime = end;
             }
-            
-            if (currentWord.trim().length > 0) {
-              const formatTime = (seconds) => {
-                const date = new Date(0);
-                date.setMilliseconds(seconds * 1000);
-                return date.toISOString().substring(11, 23).replace('.', ',');
-              };
-              srtText += `${counter}\n${formatTime(wordStartTime)} --> ${formatTime(wordEndTime)}\n${currentWord.trim()}\n\n`;
-              counter++;
-            }
-            currentWord = "";
-            wordStartTime = null;
-          } else {
-            currentWord += char;
-            wordEndTime = end;
           }
         }
       }
