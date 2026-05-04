@@ -11,10 +11,6 @@ export default function Home() {
   const [isRecording, setIsRecording] = useState(false);
   const [resultAudio, setResultAudio] = useState(null);
   const [status, setStatus] = useState(null);
-  const [apiKey, setApiKey] = useState("");
-  const [showApiKey, setShowApiKey] = useState(false);
-  const [isKeysVisible, setIsKeysVisible] = useState(false);
-  const [saveBtnText, setSaveBtnText] = useState("Save");
   const [dragOver, setDragOver] = useState(false);
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState("");
@@ -24,7 +20,6 @@ export default function Home() {
   const [styleExaggeration, setStyleExaggeration] = useState(0.0);
   const [targetLanguage, setTargetLanguage] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [geminiApiKey, setGeminiApiKey] = useState("");
   const [isEnhancing, setIsEnhancing] = useState(false);
    const [history, setHistory] = useState([]);
    const [confirmDeleteId, setConfirmDeleteId] = useState(null);
@@ -34,20 +29,7 @@ export default function Home() {
   const chunksRef = useRef([]);
   const timerRef = useRef(null);
 
-  // Load API key from localStorage
-  useEffect(() => {
-    const savedKey = localStorage.getItem("elevenlabs_api_key");
-    if (savedKey) setApiKey(savedKey);
-    const savedGeminiKey = localStorage.getItem("gemini_api_key");
-    if (savedGeminiKey) setGeminiApiKey(savedGeminiKey);
-  }, []);
 
-  const saveApiKey = () => {
-    localStorage.setItem("elevenlabs_api_key", apiKey);
-    localStorage.setItem("gemini_api_key", geminiApiKey);
-    setSaveBtnText("Saved! ✓");
-    setTimeout(() => setSaveBtnText("Save"), 2000);
-  };
 
   const handleDeleteHistoryItem = (id) => {
     if (confirmDeleteId === id) {
@@ -59,38 +41,17 @@ export default function Home() {
     }
   };
 
-  const toggleApiKeySection = () => {
-    if (showApiKey) {
-      setShowApiKey(false);
-      return;
-    }
-    
-    const savedPassword = localStorage.getItem("api_master_password");
-    if (!savedPassword) {
-      const newPassword = window.prompt("Create a master password to protect your API keys from accidental changes:");
-      if (newPassword) {
-        localStorage.setItem("api_master_password", newPassword);
-        setShowApiKey(true);
-      }
-    } else {
-      const enteredPassword = window.prompt("Enter your master password to access API keys:");
-      if (enteredPassword === savedPassword) {
-        setShowApiKey(true);
-      } else if (enteredPassword !== null) {
-        alert("Incorrect password. Access denied.");
-      }
-    }
-  };
 
-  // Fetch voices when API key is available (or if server-side key exists)
+
+  // Fetch voices on mount
   useEffect(() => {
-    fetch(`/api/voices?apiKey=${apiKey}`)
+    fetch(`/api/voices`)
       .then(res => res.json())
       .then(data => {
         if (data.voices) setVoices(data.voices);
       })
       .catch(err => console.error("Failed to fetch voices", err));
-  }, [apiKey]);
+  }, []);
 
   // File upload handlers
   const handleFileSelect = (file) => {
@@ -173,7 +134,7 @@ export default function Home() {
       const res = await fetch("/api/enhance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, geminiApiKey })
+        body: JSON.stringify({ text })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -219,7 +180,7 @@ export default function Home() {
       formData.append("voiceId", selectedVoice);
     }
     
-    if (apiKey) formData.append("apiKey", apiKey);
+
 
     try {
       const res = await fetch("/api/clone", { method: "POST", body: formData });
@@ -278,55 +239,7 @@ export default function Home() {
         <p>Upload a voice sample, type your text, and generate speech in any cloned voice instantly.</p>
       </header>
 
-      {/* API Key Section */}
-      <div className="api-key-section">
-        <div
-          className="api-key-label"
-          style={{ cursor: "pointer" }}
-          onClick={toggleApiKeySection}
-        >
-          🔑 API Keys (ElevenLabs & Gemini)
-          <span style={{ fontSize: "11px", color: "var(--text-muted)", marginLeft: "5px" }}>
-            {showApiKey ? "▲" : "▼"}
-          </span>
-        </div>
-        {showApiKey && (
-          <div className="api-key-row" style={{ animationDelay: "0.1s", flexDirection: "column", alignItems: "stretch", gap: "10px" }}>
-            <div style={{ display: "flex", gap: "10px" }}>
-              <input
-                type={isKeysVisible ? "text" : "password"}
-                className="api-key-input"
-                placeholder="ElevenLabs API Key (sk_...)"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                style={{ flex: 1 }}
-              />
-              <input
-                type={isKeysVisible ? "text" : "password"}
-                className="api-key-input"
-                placeholder="Gemini API Key (Optional for AI Enhance)"
-                value={geminiApiKey}
-                onChange={(e) => setGeminiApiKey(e.target.value)}
-                style={{ flex: 1 }}
-              />
-            </div>
-            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "15px" }}>
-              <label style={{ fontSize: "13px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "5px", cursor: "pointer" }}>
-                <input 
-                  type="checkbox" 
-                  checked={isKeysVisible} 
-                  onChange={() => setIsKeysVisible(!isKeysVisible)} 
-                  style={{ accentColor: "var(--primary)", cursor: "pointer" }}
-                />
-                Show Keys
-              </label>
-              <button className="api-key-save-btn" onClick={saveApiKey} style={{ padding: "10px 24px" }}>
-                {saveBtnText}
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+
 
       {/* Steps */}
       <div className="steps-grid">
@@ -427,7 +340,7 @@ export default function Home() {
                 </select>
               ) : (
                 <div style={{ padding: "20px", textAlign: "center", background: "rgba(255,255,255,0.05)", borderRadius: "8px", color: "var(--text-muted)" }}>
-                  {apiKey ? "Loading voices from ElevenLabs..." : "Please save your API key above to load your voices."}
+                  Loading voices from ElevenLabs...
                 </div>
               )}
             </div>
