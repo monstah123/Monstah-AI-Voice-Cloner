@@ -13,6 +13,7 @@ export default function Home() {
   const [status, setStatus] = useState(null);
   const [apiKey, setApiKey] = useState("");
   const [showApiKey, setShowApiKey] = useState(false);
+  const [isKeysVisible, setIsKeysVisible] = useState(false);
   const [saveBtnText, setSaveBtnText] = useState("Save");
   const [dragOver, setDragOver] = useState(false);
   const [voices, setVoices] = useState([]);
@@ -289,7 +290,7 @@ export default function Home() {
           <div className="api-key-row" style={{ animationDelay: "0.1s", flexDirection: "column", alignItems: "stretch", gap: "10px" }}>
             <div style={{ display: "flex", gap: "10px" }}>
               <input
-                type="password"
+                type={isKeysVisible ? "text" : "password"}
                 className="api-key-input"
                 placeholder="ElevenLabs API Key (sk_...)"
                 value={apiKey}
@@ -297,7 +298,7 @@ export default function Home() {
                 style={{ flex: 1 }}
               />
               <input
-                type="password"
+                type={isKeysVisible ? "text" : "password"}
                 className="api-key-input"
                 placeholder="Gemini API Key (Optional for AI Enhance)"
                 value={geminiApiKey}
@@ -305,9 +306,20 @@ export default function Home() {
                 style={{ flex: 1 }}
               />
             </div>
-            <button className="api-key-save-btn" onClick={saveApiKey} style={{ alignSelf: "flex-end", padding: "10px 24px" }}>
-              {saveBtnText}
-            </button>
+            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "15px" }}>
+              <label style={{ fontSize: "13px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "5px", cursor: "pointer" }}>
+                <input 
+                  type="checkbox" 
+                  checked={isKeysVisible} 
+                  onChange={() => setIsKeysVisible(!isKeysVisible)} 
+                  style={{ accentColor: "var(--primary)", cursor: "pointer" }}
+                />
+                Show Keys
+              </label>
+              <button className="api-key-save-btn" onClick={saveApiKey} style={{ padding: "10px 24px" }}>
+                {saveBtnText}
+              </button>
+            </div>
           </div>
         )}
       </div>
