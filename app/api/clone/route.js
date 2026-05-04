@@ -108,23 +108,23 @@ export async function POST(request) {
       
       // Generate SRT
       let srtText = "";
-      if (ttsData.alignment && ttsData.alignment.chars) {
+      if (ttsData.alignment && ttsData.alignment.characters) {
         let counter = 1;
         let currentWord = "";
         let wordStartTime = null;
         let wordEndTime = null;
         
-        for (let i = 0; i < ttsData.alignment.chars.length; i++) {
-          const char = ttsData.alignment.chars[i];
-          const start = ttsData.alignment.char_start_times_seconds[i];
-          const end = ttsData.alignment.char_end_times_seconds ? ttsData.alignment.char_end_times_seconds[i] : (start + 0.1);
+        for (let i = 0; i < ttsData.alignment.characters.length; i++) {
+          const char = ttsData.alignment.characters[i];
+          const start = ttsData.alignment.character_start_times_seconds[i];
+          const end = ttsData.alignment.character_end_times_seconds ? ttsData.alignment.character_end_times_seconds[i] : (start + 0.1);
 
           if (wordStartTime === null && char.trim() !== "") {
             wordStartTime = start;
           }
 
-          if (char === " " || char === "\n" || i === ttsData.alignment.chars.length - 1) {
-            if (i === ttsData.alignment.chars.length - 1) {
+          if (char === " " || char === "\n" || i === ttsData.alignment.characters.length - 1) {
+            if (i === ttsData.alignment.characters.length - 1) {
               currentWord += char;
               wordEndTime = end;
             }
@@ -133,7 +133,7 @@ export async function POST(request) {
               const formatTime = (seconds) => {
                 const date = new Date(0);
                 date.setMilliseconds(seconds * 1000);
-                return date.toISOString().substr(11, 12).replace('.', ',');
+                return date.toISOString().substring(11, 23).replace('.', ',');
               };
               srtText += `${counter}\n${formatTime(wordStartTime)} --> ${formatTime(wordEndTime)}\n${currentWord.trim()}\n\n`;
               counter++;
