@@ -604,7 +604,27 @@ export default function Home() {
               onChange={(e) => setText(e.target.value)}
               maxLength={5000}
             />
-            <span className="char-count">{text.length}/5000</span>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "6px" }}>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(text).then(() => {
+                    const btn = document.getElementById("copy-text-btn");
+                    btn.textContent = "✅ Copied!";
+                    setTimeout(() => { btn.textContent = "📋 Copy Text"; }, 2000);
+                  });
+                }}
+                disabled={!text.trim()}
+                id="copy-text-btn"
+                style={{
+                  background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+                  color: text.trim() ? "#d0d0e8" : "#555", padding: "5px 12px", borderRadius: "6px",
+                  fontSize: "12px", cursor: text.trim() ? "pointer" : "default", transition: "all 0.2s",
+                }}
+              >
+                📋 Copy Text
+              </button>
+              <span className="char-count">{text.length}/5000</span>
+            </div>
           </div>
 
           <div className="advanced-settings-toggle" onClick={() => setShowAdvanced(!showAdvanced)} style={{ marginTop: "15px", cursor: "pointer", color: "var(--primary)", fontSize: "14px", fontWeight: "600", transition: "all 0.2s" }}>
