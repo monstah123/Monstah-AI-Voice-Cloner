@@ -21,8 +21,9 @@ export default function Home() {
   const [targetLanguage, setTargetLanguage] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
-   const [history, setHistory] = useState([]);
-   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [history, setHistory] = useState([]);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   const fileInputRef = useRef(null);
   const mediaRecorderRef = useRef(null);
