@@ -391,12 +391,21 @@ audio::-webkit-media-controls-panel { background: rgba(18,18,30,0.8); border-rad
   -webkit-backdrop-filter: blur(10px);
 }
 
+/* === VIRAL BUTTONS === */
+.viral-buttons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
   .app-container { padding: 24px 16px 60px; }
   .header h1 { font-size: 2.2rem; }
   .steps-grid { gap: 20px; }
   .glass-card { padding: 20px; }
+  .viral-buttons { flex-wrap: wrap; justify-content: flex-start; }
 }
 
 @media (max-width: 640px) {

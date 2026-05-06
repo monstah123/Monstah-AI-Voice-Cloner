@@ -230,26 +230,25 @@ export default function Home() {
   const formatTime = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 
   // AI Enhance Script
-  const handleEnhance = async () => {
+  const handleEnhance = async (mode = "short") => {
     if (!text.trim()) {
       setStatus({ type: "error", message: "Please enter some text first." });
       return;
     }
-    // Note: We allow empty key here to fall back to server-side GEMINI_API_KEY
     
     setIsEnhancing(true);
-    setStatus({ type: "info", message: "✨ AI is rewriting your script to be viral..." });
+    setStatus({ type: "info", message: mode === "long" ? "🎬 AI is writing your full viral script..." : "✨ AI is rewriting your hook to be viral..." });
     
     try {
       const res = await fetch("/api/enhance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text, mode })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setText(data.text);
-      setStatus({ type: "success", message: "✨ Script enhanced successfully!" });
+      setStatus({ type: "success", message: mode === "long" ? "🎬 Full viral script generated!" : "✨ Viral hook created!" });
     } catch (e) {
       setStatus({ type: "error", message: e.message || "Failed to enhance script" });
     }
@@ -573,18 +572,27 @@ export default function Home() {
         <div className="glass-card" style={{ animationDelay: "0.2s" }}>
           <div className="step-header">
             <div className="step-number">2</div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-              <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", width: "100%", gap: "12px", flexWrap: "wrap" }}>
+              <div style={{ flex: "1 1 200px" }}>
                 <div className="step-title">Enter Your Text</div>
                 <div className="step-subtitle">Type or paste the text you want spoken in the cloned voice</div>
               </div>
-              <button 
-                onClick={handleEnhance} 
-                disabled={isEnhancing || !text.trim()}
-                style={{ background: "linear-gradient(45deg, #FF00FF, #8A2BE2)", color: "white", border: "none", padding: "8px 16px", borderRadius: "20px", fontSize: "13px", fontWeight: "bold", cursor: "pointer", opacity: (!text.trim() || isEnhancing) ? 0.5 : 1 }}
-              >
-                {isEnhancing ? "✨ Enhancing..." : "✨ Make it Viral"}
-              </button>
+              <div className="viral-buttons">
+                <button 
+                  onClick={() => handleEnhance("short")} 
+                  disabled={isEnhancing || !text.trim()}
+                  style={{ background: "linear-gradient(45deg, #FF00FF, #8A2BE2)", color: "white", border: "none", padding: "8px 14px", borderRadius: "20px", fontSize: "12px", fontWeight: "bold", cursor: "pointer", opacity: (!text.trim() || isEnhancing) ? 0.5 : 1, whiteSpace: "nowrap" }}
+                >
+                  {isEnhancing ? "✨ Working..." : "✨ Quick Hook"}
+                </button>
+                <button 
+                  onClick={() => handleEnhance("long")} 
+                  disabled={isEnhancing || !text.trim()}
+                  style={{ background: "linear-gradient(45deg, #f59e0b, #ef4444)", color: "white", border: "none", padding: "8px 14px", borderRadius: "20px", fontSize: "12px", fontWeight: "bold", cursor: "pointer", opacity: (!text.trim() || isEnhancing) ? 0.5 : 1, whiteSpace: "nowrap" }}
+                >
+                  {isEnhancing ? "🎬 Working..." : "🎬 Full Script"}
+                </button>
+              </div>
             </div>
           </div>
 
