@@ -24,7 +24,11 @@ function CustomSelect({ options, value, onChange, placeholder, id }) {
 
   useEffect(() => {
     if (!isOpen) return;
-    const close = () => setIsOpen(false);
+    const close = (e) => {
+      // Don't close if scrolling inside the dropdown itself
+      if (portalRef.current?.contains(e.target)) return;
+      setIsOpen(false);
+    };
     window.addEventListener("scroll", close, true);
     window.addEventListener("resize", close);
     return () => {
