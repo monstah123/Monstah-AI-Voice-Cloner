@@ -6,6 +6,8 @@ import Link from "next/link";
 // Custom dropdown component for cross-platform consistency
 function CustomSelect({ options, value, onChange, placeholder, id }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
+  const triggerRef = useRef(null);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -16,13 +18,22 @@ function CustomSelect({ options, value, onChange, placeholder, id }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleOpen = () => {
+    if (!isOpen && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setPos({ top: rect.bottom + 4, left: rect.left, width: rect.width });
+    }
+    setIsOpen((v) => !v);
+  };
+
   const selected = options.find((o) => o.value === value);
 
   return (
     <div className="custom-select" ref={ref} id={id}>
       <div
+        ref={triggerRef}
         className={`custom-select-trigger ${isOpen ? "open" : ""}`}
-        onClick={() => setIsOpen((v) => !v)}
+        onClick={handleOpen}
       >
         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {selected ? selected.label : placeholder || "Select..."}
@@ -30,7 +41,10 @@ function CustomSelect({ options, value, onChange, placeholder, id }) {
         <span className="arrow">▼</span>
       </div>
       {isOpen && (
-        <div className="custom-select-options">
+        <div
+          className="custom-select-options"
+          style={{ position: "fixed", top: pos.top, left: pos.left, width: pos.width }}
+        >
           {options.map((opt) => (
             <div
               key={opt.value}
