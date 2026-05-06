@@ -1,22 +1,37 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 
-// Custom dropdown component for cross-platform consistency
+// Custom dropdown — renders via Portal into document.body for guaranteed layering
 function CustomSelect({ options, value, onChange, placeholder, id }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
   const triggerRef = useRef(null);
-  const ref = useRef(null);
+  const portalRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setIsOpen(false);
+    if (!isOpen) return;
+    const handle = (e) => {
+      if (triggerRef.current?.contains(e.target)) return;
+      if (portalRef.current?.contains(e.target)) return;
+      setIsOpen(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const close = () => setIsOpen(false);
+    window.addEventListener("scroll", close, true);
+    window.addEventListener("resize", close);
+    return () => {
+      window.removeEventListener("scroll", close, true);
+      window.removeEventListener("resize", close);
+    };
+  }, [isOpen]);
 
   const handleOpen = () => {
     if (!isOpen && triggerRef.current) {
@@ -29,35 +44,63 @@ function CustomSelect({ options, value, onChange, placeholder, id }) {
   const selected = options.find((o) => o.value === value);
 
   return (
-    <div className="custom-select" ref={ref} id={id}>
+    <div style={{ position: "relative", width: "100%" }} id={id}>
       <div
         ref={triggerRef}
-        className={`custom-select-trigger ${isOpen ? "open" : ""}`}
         onClick={handleOpen}
+        style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          width: "100%", padding: "12px 14px", borderRadius: "8px",
+          border: `1px solid ${isOpen ? "#7c3aed" : "rgba(255,255,255,0.08)"}`,
+          background: "rgba(255,255,255,0.05)", color: "#f0f0f5",
+          fontSize: "15px", cursor: "pointer", transition: "all 0.2s",
+          boxShadow: isOpen ? "0 0 0 3px rgba(124,58,237,0.1)" : "none",
+        }}
       >
         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {selected ? selected.label : placeholder || "Select..."}
         </span>
-        <span className="arrow">▼</span>
+        <span style={{ fontSize: "10px", color: "#555570", transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none" }}>▼</span>
       </div>
-      {isOpen && (
+
+      {isOpen && typeof document !== "undefined" && createPortal(
         <div
-          className="custom-select-options"
-          style={{ position: "fixed", top: pos.top, left: pos.left, width: pos.width }}
+          ref={portalRef}
+          style={{
+            position: "fixed",
+            top: pos.top,
+            left: pos.left,
+            width: pos.width,
+            maxHeight: "260px",
+            overflowY: "auto",
+            background: "#121220",
+            border: "1px solid rgba(124,58,237,0.35)",
+            borderRadius: "10px",
+            zIndex: 99999,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.9), 0 0 0 1px rgba(0,0,0,0.6)",
+          }}
         >
           {options.map((opt) => (
             <div
               key={opt.value}
-              className={`custom-select-option ${opt.value === value ? "selected" : ""}`}
-              onClick={() => {
-                onChange(opt.value);
-                setIsOpen(false);
+              onClick={() => { onChange(opt.value); setIsOpen(false); }}
+              style={{
+                padding: "10px 14px",
+                fontSize: "14px",
+                color: opt.value === value ? "#fff" : "#d0d0e8",
+                cursor: "pointer",
+                background: opt.value === value ? "rgba(124,58,237,0.4)" : "#121220",
+                fontWeight: opt.value === value ? "600" : "400",
+                borderBottom: "1px solid rgba(255,255,255,0.04)",
               }}
+              onMouseEnter={(e) => { if (opt.value !== value) e.currentTarget.style.background = "#1e1e3a"; }}
+              onMouseLeave={(e) => { if (opt.value !== value) e.currentTarget.style.background = "#121220"; }}
             >
               {opt.label}
             </div>
           ))}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
