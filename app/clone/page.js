@@ -22,6 +22,8 @@ export default function Home() {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
+  const [saveToLibrary, setSaveToLibrary] = useState(false);
+  const [voiceName, setVoiceName] = useState("");
   const [history, setHistory] = useState([]);
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
@@ -177,6 +179,8 @@ export default function Home() {
     
     if (cloneMode === "new") {
       formData.append("audio", audioFile);
+      formData.append("saveToLibrary", saveToLibrary ? "true" : "false");
+      formData.append("voiceName", voiceName.trim() || "My Monstah Clone");
     } else {
       formData.append("voiceId", selectedVoice);
     }
@@ -383,6 +387,46 @@ export default function Home() {
                   <span className="record-dot" />
                   {isRecording ? `Stop Recording (${formatTime(recordingTime)})` : "Record Voice"}
                 </button>
+              </div>
+
+              {/* Save to Library */}
+              <div style={{ marginTop: "16px", padding: "14px 16px", background: "rgba(124,58,237,0.06)", border: "1px solid rgba(124,58,237,0.2)", borderRadius: "10px" }}>
+                <label style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", userSelect: "none" }}>
+                  <div
+                    onClick={() => setSaveToLibrary(v => !v)}
+                    style={{
+                      width: "20px", height: "20px", borderRadius: "5px", flexShrink: 0,
+                      border: `2px solid ${saveToLibrary ? "var(--accent-primary)" : "rgba(255,255,255,0.2)"}`,
+                      background: saveToLibrary ? "var(--accent-primary)" : "transparent",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    {saveToLibrary && <span style={{ color: "white", fontSize: "13px", lineHeight: 1 }}>✓</span>}
+                  </div>
+                  <span style={{ fontSize: "14px", fontWeight: "600", color: "white" }}>
+                    💾 Save this voice to My Library
+                  </span>
+                </label>
+                <p style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "6px", marginLeft: "30px", lineHeight: "1.5" }}>
+                  Keep this clone in your ElevenLabs account so you can reuse it anytime from the My Library tab.
+                </p>
+                {saveToLibrary && (
+                  <input
+                    type="text"
+                    placeholder="Name your voice (e.g. My Deep Voice)"
+                    value={voiceName}
+                    onChange={(e) => setVoiceName(e.target.value)}
+                    maxLength={50}
+                    style={{
+                      marginTop: "10px", marginLeft: "30px",
+                      width: "calc(100% - 30px)", padding: "9px 12px",
+                      borderRadius: "8px", border: "1px solid rgba(124,58,237,0.3)",
+                      background: "rgba(0,0,0,0.2)", color: "white",
+                      fontSize: "14px", outline: "none",
+                    }}
+                  />
+                )}
               </div>
             </>
           ) : (
