@@ -242,17 +242,7 @@ export default function Home() {
 
 
       {/* Recording Tips */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: "20px",
-        marginBottom: "24px",
-        padding: "20px 24px",
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        borderRadius: "16px",
-        backdropFilter: "blur(10px)",
-      }}>
+      <div className="tips-grid">
         {[
           {
             icon: (
