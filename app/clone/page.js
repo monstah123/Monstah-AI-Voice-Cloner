@@ -212,8 +212,16 @@ export default function Home() {
       setResultAudio(resultObj);
       setHistory((prev) => [resultObj, ...prev]);
 
-      setStatus({ type: "success", message: "✅ Voice cloned successfully!" });
+      setStatus({ type: "success", message: saveToLibrary ? "✅ Voice cloned & saved to your library!" : "✅ Voice cloned successfully!" });
       setIsGenerating(false);
+
+      // Re-fetch voices so the saved voice appears in My Library immediately
+      if (saveToLibrary && cloneMode === "new") {
+        fetch("/api/voices")
+          .then(res => res.json())
+          .then(data => { if (data.voices) setVoices(data.voices); })
+          .catch(() => {});
+      }
     } catch (err) {
       setStatus({ type: "error", message: "Network error. Please check your connection and try again." });
       setIsGenerating(false);

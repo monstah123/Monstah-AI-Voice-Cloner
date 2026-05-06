@@ -188,8 +188,8 @@ export async function POST(request) {
       });
 
     } catch (innerError) {
-      // Attempt to clean up the voice even if generation fails
-      if (isTempVoice) {
+      // Attempt to clean up the voice even if generation fails (but not if user wants to save it)
+      if (isTempVoice && !saveToLibrary) {
         await fetch(`https://api.elevenlabs.io/v1/voices/${voice_id}`, {
           method: "DELETE",
           headers: { "xi-api-key": apiKey },
