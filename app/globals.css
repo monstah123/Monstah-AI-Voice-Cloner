@@ -294,26 +294,89 @@ audio::-webkit-media-controls-panel { background: rgba(18,18,30,0.8); border-rad
 @keyframes pulseRecord { 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); } 50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); } }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* === CROSS-PLATFORM SELECT FIX (Windows + Mac consistency) === */
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  color-scheme: dark;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238888a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 32px !important;
+/* === CUSTOM DROPDOWN (replaces native select for cross-platform consistency) === */
+.custom-select {
+  position: relative;
+  width: 100%;
+  user-select: none;
 }
-select option {
-  background: #1a1a2e !important;
-  color: #f0f0f5 !important;
-  padding: 8px 12px;
+.custom-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-glass);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
+  font-size: 15px;
+  cursor: pointer;
+  transition: var(--transition-fast);
 }
-select option:checked,
-select option:hover {
-  background: rgba(124, 58, 237, 0.4) !important;
-  color: #fff !important;
+.custom-select-trigger:hover {
+  border-color: rgba(124,58,237,0.4);
+  background: rgba(255,255,255,0.08);
+}
+.custom-select-trigger.open {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+}
+.custom-select-trigger .arrow {
+  font-size: 10px;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.custom-select-trigger.open .arrow {
+  transform: rotate(180deg);
+}
+.custom-select-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  background: #1a1a2e;
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 10px;
+  z-index: 999;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  animation: fadeInUp 0.15s ease-out;
+}
+.custom-select-options::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-select-options::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-select-options::-webkit-scrollbar-thumb {
+  background: rgba(124,58,237,0.3);
+  border-radius: 3px;
+}
+.custom-select-option {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #e0e0f0;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.custom-select-option:last-child {
+  border-bottom: none;
+}
+.custom-select-option:hover {
+  background: rgba(124,58,237,0.2);
+}
+.custom-select-option.selected {
+  background: rgba(124,58,237,0.3);
+  color: #fff;
+  font-weight: 600;
+}
+.custom-select-option .option-category {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 6px;
 }
 
 /* === RECORDING TIPS GRID === */

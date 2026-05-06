@@ -3,6 +3,52 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 
+// Custom dropdown component for cross-platform consistency
+function CustomSelect({ options, value, onChange, placeholder, id }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selected = options.find((o) => o.value === value);
+
+  return (
+    <div className="custom-select" ref={ref} id={id}>
+      <div
+        className={`custom-select-trigger ${isOpen ? "open" : ""}`}
+        onClick={() => setIsOpen((v) => !v)}
+      >
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {selected ? selected.label : placeholder || "Select..."}
+        </span>
+        <span className="arrow">▼</span>
+      </div>
+      {isOpen && (
+        <div className="custom-select-options">
+          {options.map((opt) => (
+            <div
+              key={opt.value}
+              className={`custom-select-option ${opt.value === value ? "selected" : ""}`}
+              onClick={() => {
+                onChange(opt.value);
+                setIsOpen(false);
+              }}
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   const [audioFile, setAudioFile] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
@@ -440,18 +486,19 @@ export default function Home() {
           ) : (
             <div className="existing-voices-section">
               {voices.length > 0 ? (
-                <select 
-                  value={selectedVoice} 
-                  onChange={(e) => setSelectedVoice(e.target.value)}
-                  style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid var(--border-color)", background: "rgba(255,255,255,0.05)", color: "white", fontSize: "15px" }}
-                >
-                  <option value="">-- Select a voice from your library --</option>
-                  {voices.map(voice => (
-                    <option key={voice.voice_id} value={voice.voice_id}>
-                      {voice.name} {voice.category ? `(${voice.category})` : ""}
-                    </option>
-                  ))}
-                </select>
+                <CustomSelect
+                  id="voice-library-select"
+                  placeholder="-- Select a voice from your library --"
+                  value={selectedVoice}
+                  onChange={(val) => setSelectedVoice(val)}
+                  options={[
+                    { value: "", label: "-- Select a voice from your library --" },
+                    ...voices.map((voice) => ({
+                      value: voice.voice_id,
+                      label: `${voice.name}${voice.category ? ` (${voice.category})` : ""}`,
+                    })),
+                  ]}
+                />
               ) : (
                 <div style={{ padding: "20px", textAlign: "center", background: "rgba(255,255,255,0.05)", borderRadius: "8px", color: "var(--text-muted)" }}>
                   Loading voices from ElevenLabs...
@@ -501,24 +548,26 @@ export default function Home() {
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "13px", color: "var(--text-color)", fontWeight: "500" }}>
                   🌐 Auto-Translate To (Optional)
                 </label>
-                <select 
-                  value={targetLanguage} 
-                  onChange={(e) => setTargetLanguage(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border-color)", background: "rgba(255,255,255,0.05)", color: "white" }}
-                >
-                  <option value="">Do Not Translate (Keep Original Text)</option>
-                  <option value="es">Spanish</option>
-                  <option value="fr">French</option>
-                  <option value="de">German</option>
-                  <option value="it">Italian</option>
-                  <option value="pt">Portuguese</option>
-                  <option value="hi">Hindi</option>
-                  <option value="ja">Japanese</option>
-                  <option value="ko">Korean</option>
-                  <option value="zh-CN">Chinese (Simplified)</option>
-                  <option value="ar">Arabic</option>
-                  <option value="ru">Russian</option>
-                </select>
+                <CustomSelect
+                  id="language-select"
+                  placeholder="Do Not Translate (Keep Original Text)"
+                  value={targetLanguage}
+                  onChange={(val) => setTargetLanguage(val)}
+                  options={[
+                    { value: "", label: "Do Not Translate (Keep Original Text)" },
+                    { value: "es", label: "Spanish" },
+                    { value: "fr", label: "French" },
+                    { value: "de", label: "German" },
+                    { value: "it", label: "Italian" },
+                    { value: "pt", label: "Portuguese" },
+                    { value: "hi", label: "Hindi" },
+                    { value: "ja", label: "Japanese" },
+                    { value: "ko", label: "Korean" },
+                    { value: "zh-CN", label: "Chinese (Simplified)" },
+                    { value: "ar", label: "Arabic" },
+                    { value: "ru", label: "Russian" },
+                  ]}
+                />
               </div>
 
               <div style={{ marginBottom: "20px" }}>
