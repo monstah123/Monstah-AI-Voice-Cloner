@@ -241,6 +241,77 @@ export default function Home() {
 
 
 
+      {/* Recording Tips */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: "20px",
+        marginBottom: "24px",
+        padding: "20px 24px",
+        background: "rgba(255,255,255,0.03)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: "16px",
+        backdropFilter: "blur(10px)",
+      }}>
+        {[
+          {
+            icon: (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="1" y1="1" x2="23" y2="23" />
+                <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" />
+                <path d="M17 16.95A7 7 0 0 1 5 12v-2" />
+                <line x1="19" y1="12" x2="19" y2="12" />
+                <line x1="13" y1="22" x2="11" y2="22" />
+                <line x1="12" y1="19" x2="12" y2="22" />
+              </svg>
+            ),
+            title: "Avoid noisy environments",
+            desc: "Background sounds interfere with recording quality results.",
+          },
+          {
+            icon: (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z" />
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+              </svg>
+            ),
+            title: "Check microphone quality",
+            desc: "Try external units or headphone mics for better audio capture.",
+          },
+          {
+            icon: (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            ),
+            title: "Use consistent equipment",
+            desc: "Don't change recording equipment between samples.",
+          },
+        ].map((tip, i) => (
+          <div key={i} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <div style={{
+              width: "36px", height: "36px",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(138,43,226,0.15)",
+              border: "1px solid rgba(138,43,226,0.25)",
+              borderRadius: "10px",
+              color: "rgba(200,150,255,0.9)",
+            }}>
+              {tip.icon}
+            </div>
+            <div style={{ fontWeight: "700", fontSize: "14px", color: "white", lineHeight: "1.3" }}>
+              {tip.title}
+            </div>
+            <div style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: "1.5" }}>
+              {tip.desc}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Steps */}
       <div className="steps-grid">
         {/* Step 1: Voice Selection */}
