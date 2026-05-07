@@ -69,6 +69,54 @@ export default function LandingPage() {
         </div>
       </main>
 
+      {/* Clone Tiers Section */}
+      <section style={{ padding: "80px 20px 0", position: "relative" }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
+            <h2 style={{ fontSize: "32px", fontWeight: "800", marginBottom: "10px", letterSpacing: "-0.5px" }}>Two Ways to Clone</h2>
+            <p style={{ color: "var(--text-muted)", fontSize: "16px" }}>Choose the method that fits your workflow</p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+            {/* Instant Clone */}
+            <div style={{
+              background: "rgba(255,255,255,0.03)", border: "1px solid rgba(124,58,237,0.2)",
+              borderRadius: "16px", padding: "32px", position: "relative", overflow: "hidden",
+            }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, #8A2BE2, #FF00FF)" }} />
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px" }}>
+                <span style={{ fontSize: "28px" }}>⚡</span>
+                <h3 style={{ fontSize: "20px", fontWeight: "700" }}>Instant Voice Clone</h3>
+              </div>
+              <p style={{ color: "var(--text-muted)", fontSize: "15px", lineHeight: "1.6", marginBottom: "16px" }}>
+                Clone your voice with only <strong style={{ color: "#c4b5fd" }}>10 seconds</strong> of audio. Quick, easy, and perfect for short-form content and testing.
+              </p>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(124,58,237,0.1)", padding: "6px 14px", borderRadius: "20px", fontSize: "12px", fontWeight: "600", color: "#c4b5fd" }}>
+                🎙️ Upload or Record
+              </div>
+            </div>
+
+            {/* Professional Clone */}
+            <div style={{
+              background: "rgba(255,255,255,0.03)", border: "1px solid rgba(245,158,11,0.2)",
+              borderRadius: "16px", padding: "32px", position: "relative", overflow: "hidden",
+            }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, #f59e0b, #ef4444)" }} />
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px" }}>
+                <span style={{ fontSize: "28px" }}>🏆</span>
+                <h3 style={{ fontSize: "20px", fontWeight: "700" }}>Professional Voice Clone</h3>
+              </div>
+              <p style={{ color: "var(--text-muted)", fontSize: "15px", lineHeight: "1.6", marginBottom: "16px" }}>
+                Create the most realistic digital replica. Requires at least <strong style={{ color: "#fcd34d" }}>30 minutes</strong> of clean audio for studio-grade results.
+              </p>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(245,158,11,0.1)", padding: "6px 14px", borderRadius: "20px", fontSize: "12px", fontWeight: "600", color: "#fcd34d" }}>
+                🎧 Maximum Fidelity
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section id="features" style={{ padding: "100px 20px", background: "rgba(0,0,0,0.3)", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
