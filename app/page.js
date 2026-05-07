@@ -79,7 +79,7 @@ export default function LandingPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
             {/* Instant Clone */}
-            <div style={{
+            <div onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{
               background: "rgba(255,255,255,0.03)", border: "1px solid rgba(124,58,237,0.2)",
               borderRadius: "16px", padding: "32px", position: "relative", overflow: "hidden",
             }}>
@@ -97,7 +97,7 @@ export default function LandingPage() {
             </div>
 
             {/* Professional Clone */}
-            <div style={{
+            <div onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{
               background: "rgba(255,255,255,0.03)", border: "1px solid rgba(245,158,11,0.2)",
               borderRadius: "16px", padding: "32px", position: "relative", overflow: "hidden",
             }}>
@@ -129,63 +129,63 @@ export default function LandingPage() {
           <div className="landing-feature-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "30px" }}>
 
             {/* Feature 1 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🎙️</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Studio-Grade Cloning</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Powered by the ElevenLabs API. Upload a sample or record directly in-app, then instantly clone the voice. Save your best clones to your personal voice library for one-click reuse.</p>
             </div>
 
             {/* Feature 2 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>✨</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>AI Viral Script Generator</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Powered by Google Gemini. Two modes: <strong>Quick Hook</strong> for punchy short-form openers, and <strong>Full Script</strong> for complete 60-90 second viral video scripts with hooks, story beats, and CTAs.</p>
             </div>
 
             {/* Feature 3 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🎬</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Auto-Synced Subtitles</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Never sync text manually again. The app automatically extracts exact word-level timestamps and generates a ready-to-use <code>.srt</code> file for your video editor.</p>
             </div>
 
             {/* Feature 4 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🌐</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>11+ Language Translation</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Auto-translate your script into Spanish, French, German, Italian, Portuguese, Hindi, Japanese, Korean, Chinese, Arabic, or Russian — then generate the speech in one click.</p>
             </div>
 
             {/* Feature 5 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>💾</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Save to Voice Library</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Clone once, reuse forever. Save your best voice clones to your personal ElevenLabs library with custom names. Switch between voices instantly from the My Library tab.</p>
             </div>
 
             {/* Feature 6 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🎛️</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Advanced Voice Controls</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Fine-tune your audio with precision sliders. Adjust stability for emotion, similarity for exact voice matching, and style exaggeration for extra flair.</p>
             </div>
 
             {/* Feature 7 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>📋</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>One-Click Copy & Export</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Copy your AI-generated scripts to clipboard instantly. Download your cloned audio and subtitle files with a single click. Session history keeps every generation logged.</p>
             </div>
 
             {/* Feature 8 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🔴</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>In-App Voice Recorder</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>No external tools needed. Record your voice sample directly in the browser with the built-in recorder. Works on desktop and mobile — just tap record and start talking.</p>
             </div>
 
             {/* Feature 9 */}
-            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+            <div className="feature-card" onMouseEnter={playHoverSound} onTouchStart={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>📱</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Works on Any Device</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Fully responsive across Mac, Windows, iPhone, and Android. No downloads, no installs — just open the link and start creating from any browser, anywhere.</p>
