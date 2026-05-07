@@ -48,7 +48,7 @@ export default function LandingPage() {
 
         <div style={{ border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)", padding: "8px 16px", borderRadius: "30px", fontSize: "13px", fontWeight: "600", marginBottom: "30px", backdropFilter: "blur(10px)", display: "inline-flex", alignItems: "center", gap: "8px" }}>
           <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#00FF00", boxShadow: "0 0 10px #00FF00" }} />
-          v2.0 is now live
+          v3.0 — Full Script Mode is live
         </div>
 
         <h1 style={{ fontSize: "clamp(48px, 6vw, 80px)", fontWeight: "900", lineHeight: "1.1", marginBottom: "20px", letterSpacing: "-2px", maxWidth: "900px" }}>
@@ -56,7 +56,7 @@ export default function LandingPage() {
         </h1>
 
         <p style={{ fontSize: "clamp(18px, 2vw, 22px)", color: "var(--text-muted)", maxWidth: "700px", marginBottom: "40px", lineHeight: "1.6" }}>
-          Instantly clone any voice with studio-grade fidelity. Enhance scripts with Gemini AI, auto-generate perfectly synced subtitles, and translate across the globe in seconds.
+          Instantly clone any voice with studio-grade fidelity. Generate full viral scripts with AI, auto-sync subtitles, translate into 11+ languages, and build your personal voice library — all in one dashboard.
         </p>
 
         <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
@@ -84,42 +84,56 @@ export default function LandingPage() {
             <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🎙️</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Studio-Grade Cloning</h3>
-              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Powered by the ElevenLabs API. Instantly clone voices from a short sample or access your entire pre-trained voice library directly in the app.</p>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Powered by the ElevenLabs API. Upload a sample or record directly in-app, then instantly clone the voice. Save your best clones to your personal voice library for one-click reuse.</p>
             </div>
 
             {/* Feature 2 */}
             <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>✨</div>
-              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>"Make it Viral" Enhancer</h3>
-              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Integrated with Google Gemini 1.5 Flash. Click one button to instantly rewrite dull text into high-retention, punchy hooks designed for TikTok and Shorts.</p>
+              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>AI Viral Script Generator</h3>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Powered by Google Gemini. Two modes: <strong>Quick Hook</strong> for punchy short-form openers, and <strong>Full Script</strong> for complete 60-90 second viral video scripts with hooks, story beats, and CTAs.</p>
             </div>
 
             {/* Feature 3 */}
             <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🎬</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Auto-Synced Subtitles</h3>
-              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Never sync text manually again. The app automatically extracts exact word-level timestamps and generates a ready-to-use `.srt` file for your video editor.</p>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Never sync text manually again. The app automatically extracts exact word-level timestamps and generates a ready-to-use <code>.srt</code> file for your video editor.</p>
             </div>
 
             {/* Feature 4 */}
             <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🌐</div>
-              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Global Translation</h3>
-              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Select a target language, and the app will automatically translate your script into Spanish, French, Japanese, or Arabic before generating the speech.</p>
+              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>11+ Language Translation</h3>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Auto-translate your script into Spanish, French, German, Italian, Portuguese, Hindi, Japanese, Korean, Chinese, Arabic, or Russian — then generate the speech in one click.</p>
             </div>
 
             {/* Feature 5 */}
+            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+              <div style={{ fontSize: "40px", marginBottom: "20px" }}>💾</div>
+              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Save to Voice Library</h3>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Clone once, reuse forever. Save your best voice clones to your personal ElevenLabs library with custom names. Switch between voices instantly from the My Library tab.</p>
+            </div>
+
+            {/* Feature 6 */}
             <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
               <div style={{ fontSize: "40px", marginBottom: "20px" }}>🎛️</div>
               <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Advanced Voice Controls</h3>
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Fine-tune your audio with precision sliders. Adjust stability for emotion, similarity for exact voice matching, and style exaggeration for extra flair.</p>
             </div>
 
-            {/* Feature 6 */}
+            {/* Feature 7 */}
             <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
-              <div style={{ fontSize: "40px", marginBottom: "20px" }}>📚</div>
-              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Session History Gallery</h3>
-              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Never lose a generation. The app automatically logs your recent generations at the bottom of your screen so you can preview and download them anytime.</p>
+              <div style={{ fontSize: "40px", marginBottom: "20px" }}>📋</div>
+              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>One-Click Copy & Export</h3>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Copy your AI-generated scripts to clipboard instantly. Download your cloned audio and subtitle files with a single click. Session history keeps every generation logged.</p>
+            </div>
+
+            {/* Feature 8 */}
+            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+              <div style={{ fontSize: "40px", marginBottom: "20px" }}>🔴</div>
+              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>In-App Voice Recorder</h3>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>No external tools needed. Record your voice sample directly in the browser with the built-in recorder. Works on desktop and mobile — just tap record and start talking.</p>
             </div>
 
           </div>
