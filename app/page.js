@@ -136,6 +136,13 @@ export default function LandingPage() {
               <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>No external tools needed. Record your voice sample directly in the browser with the built-in recorder. Works on desktop and mobile — just tap record and start talking.</p>
             </div>
 
+            {/* Feature 9 */}
+            <div className="feature-card" onMouseEnter={playHoverSound} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)", padding: "40px", borderRadius: "20px", backdropFilter: "blur(10px)" }}>
+              <div style={{ fontSize: "40px", marginBottom: "20px" }}>📱</div>
+              <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "15px" }}>Works on Any Device</h3>
+              <p style={{ color: "var(--text-muted)", lineHeight: "1.6", fontSize: "15px" }}>Fully responsive across Mac, Windows, iPhone, and Android. No downloads, no installs — just open the link and start creating from any browser, anywhere.</p>
+            </div>
+
           </div>
         </div>
       </section>
