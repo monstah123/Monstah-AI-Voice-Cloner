@@ -190,11 +190,62 @@ export default function Home() {
     setAudioUrl(null);
   };
 
-  // Recording
+  // Recording — with robust mobile Safari / Chrome support
+  const getSupportedMimeType = () => {
+    const types = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/mp4",
+      "audio/ogg;codecs=opus",
+      "audio/ogg",
+      "",
+    ];
+    for (const type of types) {
+      if (type === "" || (typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(type))) {
+        return type;
+      }
+    }
+    return "";
+  };
+
   const startRecording = async () => {
+    // Check if getUserMedia is available at all
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setStatus({
+        type: "error",
+        message:
+          "🎙️ Microphone access is not available in this browser. Please make sure you are using HTTPS and try Safari or Chrome.",
+      });
+      return;
+    }
+
     try {
+      // On iOS Safari, we may need to resume AudioContext first (user gesture requirement)
+      try {
+        const tempCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (tempCtx.state === "suspended") await tempCtx.resume();
+        tempCtx.close();
+      } catch (_) {
+        // ignore — not critical
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+
+      // Detect supported mime type (Safari doesn't support webm)
+      const mimeType = getSupportedMimeType();
+      const recorderOptions = mimeType ? { mimeType } : undefined;
+
+      let mediaRecorder;
+      try {
+        mediaRecorder = new MediaRecorder(stream, recorderOptions);
+      } catch (_e) {
+        // Fallback: let the browser pick the default format
+        mediaRecorder = new MediaRecorder(stream);
+      }
+
+      const actualMime = mediaRecorder.mimeType || mimeType || "audio/webm";
+      const extension = actualMime.includes("mp4") ? "m4a" : actualMime.includes("ogg") ? "ogg" : "webm";
+
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
 
@@ -203,8 +254,8 @@ export default function Home() {
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
-        const file = new File([blob], "voice-recording.webm", { type: "audio/webm" });
+        const blob = new Blob(chunksRef.current, { type: actualMime });
+        const file = new File([blob], `voice-recording.${extension}`, { type: actualMime });
         handleFileSelect(file);
         stream.getTracks().forEach((t) => t.stop());
         setRecordingTime(0);
@@ -215,7 +266,39 @@ export default function Home() {
       setRecordingTime(0);
       timerRef.current = setInterval(() => setRecordingTime((t) => t + 1), 1000);
     } catch (err) {
-      setStatus({ type: "error", message: "Microphone access denied. Please allow mic access." });
+      console.error("Microphone error:", err);
+
+      // Provide detailed guidance based on the error
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isAndroid = /Android/.test(navigator.userAgent);
+
+      let helpMessage = "";
+      if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+        if (isIOS) {
+          helpMessage =
+            "🎙️ Microphone access was denied. On iPhone/iPad:\n" +
+            "1. Open Settings → Safari (or Chrome) → Microphone → Allow\n" +
+            "2. Or tap the 'Aa' / lock icon in the address bar → Website Settings → Microphone → Allow\n" +
+            "3. Then reload this page and try again.";
+        } else if (isAndroid) {
+          helpMessage =
+            "🎙️ Microphone access was denied. On Android:\n" +
+            "1. Tap the lock/tune icon in the address bar → Permissions → Microphone → Allow\n" +
+            "2. Or go to Settings → Apps → Chrome → Permissions → Microphone → Allow\n" +
+            "3. Then reload this page and try again.";
+        } else {
+          helpMessage =
+            "🎙️ Microphone access was denied. Please click the lock/camera icon in the address bar, allow microphone access, and reload the page.";
+        }
+      } else if (err.name === "NotFoundError") {
+        helpMessage = "🎙️ No microphone was found on this device. Please connect a microphone and try again.";
+      } else if (err.name === "NotReadableError" || err.name === "AbortError") {
+        helpMessage = "🎙️ Your microphone is being used by another app. Please close other apps using the mic and try again.";
+      } else {
+        helpMessage = `🎙️ Could not access microphone: ${err.message || "Unknown error"}. Please check your browser settings and try again.`;
+      }
+
+      setStatus({ type: "error", message: helpMessage });
     }
   };
 
