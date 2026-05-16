@@ -679,6 +679,48 @@ export default function Home() {
             </div>
           </div>
 
+          {/* VPN Notice for Gemini-restricted countries */}
+          <div id="vpn-notice" style={{
+            margin: "14px 0 0 0",
+            padding: "12px 16px",
+            background: "rgba(59, 130, 246, 0.08)",
+            border: "1px solid rgba(59, 130, 246, 0.2)",
+            borderRadius: "10px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            flexWrap: "wrap",
+          }}>
+            <div style={{ flex: "1 1 250px", fontSize: "13px", color: "#93a3c0", lineHeight: "1.5" }}>
+              <span style={{ fontWeight: "600", color: "#a5b4fc" }}>⚠️ Notice:</span>{" "}
+              If you are in a country where Google Gemini is restricted, please enable a VPN (US/UK) to use the AI scriptwriter.
+            </div>
+            <a
+              href="https://account.proton.me/refer-a-friend?referrer=XPPWFV2N"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "8px 18px",
+                background: "linear-gradient(135deg, #3b82f6, #6366f1)",
+                color: "white",
+                fontWeight: "700",
+                fontSize: "13px",
+                borderRadius: "20px",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                transition: "all 0.2s",
+                boxShadow: "0 2px 10px rgba(99, 102, 241, 0.3)",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.05)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(99, 102, 241, 0.5)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 2px 10px rgba(99, 102, 241, 0.3)"; }}
+            >
+              VPN 🚀
+            </a>
+          </div>
+
           <div className="text-area-wrapper">
             <textarea
               className="text-area"
